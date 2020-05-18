@@ -14,6 +14,10 @@
 
  /*about resume.html*/
 
+.duiqi{
+    text-align-last: justify;
+}
+
 .line{
     border-bottom: 1px solid #000;
     width: 480px;
