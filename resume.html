@@ -1,80 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <title>我的个人简历</title>
     <style>
-        table {
-            border-collapse:collapse;
+        .main_div{
+            width: 722px;
+            height: 988px;
+            background: rgb(210,210,210);
+            margin: auto;
+            box-shadow: 0px 0px 10px 5px #555;
         }
-        table,td.th{
-            border: 1px solid blue;
+        .image_div{
+            position: relative;
+            width: 240px;
+            height: 320px;
+            left: 30px;
+            top: 20px;
+            background: rgb(0,0,0);
+        }
+        .info1{
+            position: relative;
+            left: 300px;
+            top: -300px;
+        }
+        .info2{
+            position: relative;
+            width: 240px;
+            height: 200px;
+            left:30px;
+            top: -420px;
+        }
+        .info3{
+            position: relative;
+            left:30px;
+            top: -400px;
+            width: 240px;
+        }
+        .info4{
+            position: relative;
+            left:30px;
+            top:-400px;
         }
     </style>
-
 </head>
 <body>
-    <table width="700" height="500" border="1" background="img/bacg.jpg" align="center">
-        <caption><h3>个人简历</h3></caption>
-        <tr>
-            <td width="90">姓名</td>
-            <td width="120">施磊</td>
-            <td width="89">出生日期</td>
-            <td width="115">1999.11.29</td>
-            <td width="91">性别</td>
-            <td width="48">男</td>
-            <td width="121" rowspan="4" background="picture/img.jpg"></td>
-        </tr>
-        <tr>
-            <td>学历</td>
-            <td>本科</td>
-            <td>专业</td>
-            <td>纳米材料</td>
-            <td>民族</td>
-            <td>汉族</td>
-        </tr>
-        <tr>
-            <td>学校</td>
-            <td><a href="http://www.njust.edu.cn/" target="_blank"> 南京理工大学</a></td>
-            <td>政治面貌</td>
-            <td>群众</td>
-            <td>联系方式</td>
-            <td>18851093443</td>
-        </tr>
-        <tr>
-            <td>籍贯</td>
-            <td>云南昆明</td>
-            <td>邮箱</td>
-            <td>2055833480@qq.com</td>
-        </tr>
-        <tr height="100">
-            <td>主修课程</td>
-            <td colspan="6">
-                材料科学基础,材料物理化学,C++,高等数学,大学物理<br/>
-                电工学,半导体物理基础,微纳米加工基础,项目管理<br/>
-            </td>
-        </tr>
-        <tr>
-            <td>技能证书</td>
-            <td colspan="6">
-                <ul>
-                    <li>CET 4</li>
-                    <li>计算机二级</li>
-                    <li>普通话二甲</li>
-                    <li>驾驶证</li>
-                </ul>
-        </tr>
-        <tr>
-            <td colspan="7" align="center"><b>自我评价</b></td>
-        </tr>
-        <tr>
-            <td colspan="7" height="200">
-                &nbsp;&nbsp;大学期间,曾担任课代表,工作认真负责.
-                大学期间认真学习本专业知识,积极与同学老师讨论.课后广泛学习其他课外知识,
-                包括:html网页设计,Python,C++,人工神经网络,强化学习等.
-                生活中,热爱自然,积极向上
-            </td>
-        </tr>
-    </table>
+    <div class="main_div">
+        <div class="image_div">
+        </div>
+        <div class="info1">
+            <h3>个人信息</h3>
+            <table>
+                <tr>
+                    <td>姓名:</td> <td>施磊</td>
+                    <td>邮箱:</td> <td>2055833480@qq.com</td>
+                </tr>
+                <tr>
+                    <td>生日:</td> <td>1999.11.29</td>
+                    <td>现住城市:</td> <td>南京</td>
+                </tr>
+                <tr>
+                    <td>手机号:</td> <td>18851093443</td>
+                </tr>
+            </table>
+
+            <h3>技能</h3>
+            <table>
+                <tr>
+                    <td>专业技能:</td> <td>磨金相</td>
+                </tr>
+                <tr>
+                    <td>编程技能:</td> <td>C/C++ python 人工神经网络 网页设计</td>
+                </tr>
+                <tr>
+                    <td>其他技能:</td> <td>arduino SolidWorks AutoCAD VisualStudio</td>
+                </tr>
+            </table>
+
+            <h3>教育经历</h3>
+            <table>
+                <tr>
+                    <td>学校名称:</td> <td>南京理工大学</td>
+                    <td>所学专业:</td> <td>纳米材料</td>
+                </tr>
+                <tr>
+                    <td>就读时间:</td> <td>2017.9-2021.6</td>
+                    <td>学历学位:</td> <td>本科</td>
+                </tr>
+            </table>
+
+            <h3>实习经历</h3>
+        </div>
+        <div class="info2">
+            <h3>自我评价</h3>
+            <p>课内,积极认真,乐于思考,勇于质疑.<br>
+                课外,具有极强的实践 团队合作能力,参加过多项机器人竞赛;具有较强的自学能力,大学四年,自学了python和html语言,通过github 哔哩哔哩自学了神经网络</p>
+        </div>
+        <div class="info3">
+            <h3>证书</h3>
+            <p>balalla</p>
+            <p>lalala</p>
+        </div>
+        <div class="info4">
+            <h3>项目经历</h3>
+            <h4>项目1</h4>
+            <h4>项目2</h4>
+            <h4>其他项目</h4>
+        </div>
+    </div>
 </body>
 </html>

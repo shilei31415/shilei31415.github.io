@@ -1,0 +1,13 @@
+.midel{
+    text-align: center;
+}
+.white{
+    color: white;
+}
+.image1{
+    background:url('picture/xiaoshenke.jpg');
+    background-repeat: no-repeat;
+
+    width: 1080px;
+    height: 720px;
+}
