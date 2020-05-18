@@ -37,6 +37,12 @@
      margin: auto;
      box-shadow: 0px 0px 10px 5px #555;
  }
+.secend_div{
+    width: 840px;
+    height: 300px;
+    margin: auto;
+}
+
 .image_div{
     position: relative;
     width: 240px;
@@ -67,4 +73,11 @@
     position: relative;
     left:40px;
     top:-400px;
+}
+
+.info5{
+    position: relative;
+    left:700px;
+    top:40px;
+    width: 200px;
 }
