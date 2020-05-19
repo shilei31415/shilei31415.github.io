@@ -46,10 +46,10 @@
 .image_div{
     position: relative;
     width: 240px;
-    height: 320px;
+    height: 336px;
     left: 40px;
     top: 40px;
-    background: rgb(0,0,0);
+    background: url("picture/me.jpg");
 }
 .info1{
     position: relative;
