@@ -61,7 +61,7 @@
     width: 250px;
     height: 200px;
     left:40px;
-    top: -400px;
+    top: -480px;
 }
 .info3{
     position: relative;
@@ -72,7 +72,7 @@
 .info4{
     position: relative;
     left:40px;
-    top:-400px;
+    top:-460px;
     width: 760px;
 }
 
@@ -81,4 +81,7 @@
     left:700px;
     top:40px;
     width: 200px;
+}
+.info6{
+    width: 480px;
 }
