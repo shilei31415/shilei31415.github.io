@@ -1,16 +1,3 @@
-.midel{
-    text-align: center;
-}
-.white{
-    color: white;
-}
-.image1{
-    background:url('picture/xiaoshenke.jpg');
-    background-repeat: no-repeat;
-
-    width: 1080px;
-    height: 720px;
-}
 
  /*about resume.html*/
 
@@ -49,7 +36,7 @@
     height: 336px;
     left: 40px;
     top: 40px;
-    background: url("picture/me.jpg");
+    background: url("../images/me.jpg");
 }
 .info1{
     position: relative;
@@ -85,3 +72,10 @@
 .info6{
     width: 480px;
 }
+
+/*about index*/
+
+ section.row, header.row, footer.row {
+     margin: 0;
+     position: relative;
+ }
