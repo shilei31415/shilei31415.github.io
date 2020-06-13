@@ -103,7 +103,7 @@
 
 /*Author Widget*/
 .widget-author .know-more {
-  background: linear-gradient(330deg, #81db34, #34d9da);
+  background: -webkit-linear-gradient(330deg, #81db34, #34d9da);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: #34d9da;
