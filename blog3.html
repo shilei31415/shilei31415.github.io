@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
+    <title>Yolo 5 读书笔记</title>
+
+    <!--==========Dependency============-->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendors/owl-carousel/assets/owl.carousel.css">
+    <link rel="stylesheet" href="vendors/magnific-popup/magnific-popup.css">
+    <link rel="stylesheet" href="vendors/flexslider/flexslider.css">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit:500">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans:600,700italic">
+    <link href='https://fonts.googleapis.com/css?family=Dosis:400,200,300,500,600,800,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:400,300,300italic,400italic">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500italic,500,700italic,700,900,900italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
+
+    <!--==========Theme Styles==========-->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/theme/green.css" rel="stylesheet">
+
+    <!--========== HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries ==========-->
+    <!--========== WARNING: Respond.js doesn't work if you view the page via file:// ==========-->
+    <!--==========[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]==========-->
+</head>
+<style>
+    .Black{
+        background-color: green;
+    }
+</style>
+<body>
+
+<header class="row transparent white" data-spy="affix" data-offset-top="300" id="header">
+    <div class="container">
+        <div class="row top-header">
+            <div class="col-sm-4 search-form-col">
+                <form action="#" method="get" class="search-form">
+                    <div class="input-group">
+                        <span class="input-group-addon"><img src="images/search-icon-dark.png" alt=""></span>
+                        <input type="search" class="form-control" placeholder="search">
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-4 logo-col text-center">
+                <h3>The world of 施磊</h3>
+            </div>
+            <div class="col-sm-4 menu-trigger-col">
+                <button class="menu-trigger black pull-right">
+                    <span class="active-page">Blog Details</span>
+                    <img src="images/menu-align-dark.png" alt="" class="icon-burger">
+                    <img src="images/menu-close-dark.png" alt="" class="icon-cross">
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row menu-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 menu-col">
+                    <div class="row">
+                        <ul class="nav column-menu white-bg">
+                            <li class="active dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Home <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="index2.html">2020-6月</a></li>
+                                    <li><a href="index3.html">Home Option 3</a></li>
+                                    <li><a href="index4.html">Home Option 4</a></li>
+                                    <li><a href="index5.html">Home Option 5</a></li>
+                                    <li><a href="index6.html">Home Option 6</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="resume.html">resume(个人简历)</a></li>
+                            <li><a href="single.html">my memery(我的回忆)</a></li>
+                            <li><a href="single2.html">my store(我的小店)</a></li>
+                        </ul>
+                        <ul class="nav column-menu white-bg">
+                            <li><a href="single3.html">I'm reading(最近在读)</a></li>
+                            <li><a href="single3.html">I'm doing(最近在做)</a></li>
+                            <li><a href="https://github.com/shilei31415">github</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4 subscribe-col">
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="row content-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 single-post-contents">
+                <article class="single-post-content row m0 post">
+                    <header class="row">
+                        <h5 class="post-meta">
+                            <a class="date">2020 7 3</a>
+                            <span class="post-author"><i>by</i><a href="resume.html">施磊</a></span>
+                        </h5>
+                        <h2 class="post-title">今天来学习一下Yolo5, 并做如下笔记</h2>
+                        <div class="row">
+                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">html</a></h5>
+                        </div>
+                    </header>
+                    <div class="post-content row">
+                        <h3>
+                            1. Yolo简介
+                        </h3>
+                        <h4>
+                            Yolo, you only look once的简称, 我想作者是想借这个名字表达"这个网络识别速度很快, 看一眼的时间就足够他识别"(纯属瞎扯)<br>
+                            实际上Yolo也是一个卷积神经网络,如下图:(图片来源于网络)
+                        </h4>
+                        <div class="col-sm-12">
+                            <img src="images/blog/yolo.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <h4>
+                            不同与minst网络, Yolo最后输出一个张量(n*n*m)表示图片中各个物体的大小,种类,位置 这些关系,而不是想minst输出一个向量(1*n)
+                            表示图中出现物体的种类, 所以yolo无论是网络大小,还是功能,都远多于minst.<br>
+                            重点说一下最终的张量(n*n*m): <br>
+                            n*n: 许多网站上将它解释为,将输入图片分割为你n*n个小区域, 这话不错却也造成了许多误解; ①输入Yolo时并不需要将图像分割, 由N*N*3的图片
+                            直接卷积得到(n*n*m);②n*n中每一格代表原图中的一块区域, 看看上图CNN的原理就会懂, 卷积过程中张量的长宽不断减小, 从最后一层倒着看像第一层,
+                            就会发现, 最后一层的一格,代表第一层一个区域,当然,这一区域没有特别明显的界限.<br>
+                            m=(类个数+5)*3: ①首先该网络需要完成分类, 目前大部分分类都采用类似方法: 分n个类,则输出n个数,表示该物体是:第一类的概率,第二类的概率.....第n类的概率
+                            哪一个概率最大我们便认为该物体属于这一类,因此始终有"类个数"; ② +5表示框, 如下图, Yolo的结果是输出一堆框, 每个框都必须由四个变量表示,
+                            在此Yolo选择了x,y,w,h这四个变量,第五个变量表示置信读,待会再说; ③*3, 每个小区域内可能存在多个目标物体,因此一个小区域内预测三个框,但
+                            从结果可以看出, 并不是每一个区域内都有三个框, 这就是置信度的作用, 表示该框准确框到物体的概率, 借此筛掉多余的框.<br>
+                            其实并没有筛完, 所以Yolo后常跟随NMS(非极大值抑制). 至于如何通过卷积得到最后这个张量(n*n*m), 不同的版本有不同的卷积方式, 在此不做赘述
+                        </h4>
+                        <div class="col-sm-12">
+                            <img src="images/blog/yolo-result.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <h3>
+                            2. Yolo 5 网络结构
+                        </h3>
+                        <h4>
+                            Yolo5没有想Yolo3一样将网络结构保存为cfg文件, 而是保存为yaml文件, 导致我一开始也没看懂, 但只要找到yaml文件的读取方式,马上就可以知道网络结构了
+                            <div class="col-sm-12">
+                                <img src="images/blog/yolo5web.png" alt="loading picture" class="img-thumbnail">
+                            </div>
+                            <br>之后我找到了读取yaml文件的程序 models/yolo.py中的Model类.<br>
+                            from代表输入层, -1即上一层输出通道数<br>
+                            number暂时没能理解,只知道它用于控制BottleneckCSP层中的通道数<br>
+                            args代表,输出通道数, kernel_size, stride<br>
+                            module代表网络层类型, 大致由以下几中:<br>
+                            <div class="col-sm-12">
+                                <img src="images/blog/focus.png" alt="loading picture" class="img-thumbnail">
+                            </div>
+                            <div class="col-sm-12">
+                                <img src="images/blog/conv.png" alt="loading picture" class="img-thumbnail">
+                            </div>
+
+                            <div class="col-sm-12">
+                                <img src="images/blog/BottleneckCSP.png" alt="loading picture" class="img-thumbnail">
+                            </div>
+                            可见他们都是由简单网络层组成的, 所以整个yolo5s, 共有191层网络, 具体网络可以自己根据yaml文件画一画, 我就偷个懒,不在此显示了
+                        </h4>
+
+                        <h3>
+                            3. 准备训练数据
+                        </h3>
+                        <h4>
+                            不知道这个网上下载的yolo5能读取哪种数据(xml, csv, yaml),因此找到了utils/datasets.py<br>
+                            与之前我看到的yolo3一样, 该文件可以自行下载训练集, 而且图片的labels同样是存在txt文件中, 但是我的数据是csv /(ㄒoㄒ)/~~<br>
+                            接下来就要自己编写一个csv转txt的代码 /(ㄒoㄒ)/~~
+                        </h4>
+                        <h4>
+
+                        </h4>
+
+                    </div>
+                </article>
+            </div>
+
+            <!--Author Widget-->
+            <div class="col-md-4 sidebar">
+                <aside class="row m0 widget-author widget">
+                    <div class="widget-author-inner row">
+                        <div class="author-avatar row"><a href="#"><img src="images/author.jpg" alt="" class="img-circle"></a></div>
+                        <a href="#"><h2 class="author-name">施磊</h2></a>
+                        <h5 class="author-title">不想当将军的马夫,不是好厨子</h5>
+                        <p>截至6月10日,我的github博客,基本建立完成.发此篇简述建立过程,供大家学习</p>
+                        <a href="resume.html" class="taxonomy" style="font-size: 15pt">resume</a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Footer-->
+<footer class="row" id="footer">
+    <div class="container">
+        <div class="row top-footer">
+            <div class="widget col-sm-3 widget-about" >
+                <h3>The world of 施磊</h3>
+            </div>
+            <div class="widget col-sm-5 widget-menu">
+                <div class="row">
+                    <ul class="nav column-menu white-bg">
+                        <li class="active"><a href="index.html">Home</a></li>
+                        <li><a href="resume.html">resume</a></li>
+                        <li><a href="single.html">my memery</a></li>
+                        <li><a href="single2.html">my store</a></li>
+                    </ul>
+                    <ul class="nav column-menu white-bg">
+                        <li><a href="single3.html">I'm reading</a></li>
+                        <li><a href="single3.html">I'm doing</a></li>
+                        <li><a href="https://github.com/shilei31415">github</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="widget col-sm-4 widget-subscribe">
+
+            </div>
+        </div>
+        <h5 class="copyright">Thanks for <a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></h5>
+    </div>
+</footer>
+
+<!--========== jQuery (necessary for Bootstrap's JavaScript plugins) ==========-->
+<script src="js/jquery-2.2.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="vendors/owl-carousel/owl.carousel.min.js"></script>
+<script src="vendors/magnific-popup/jquery.magnific-popup.min.js"></script>
+<script src="vendors/instafeed/instafeed.min.js"></script>
+<script src="vendors/imagesLoaded/imagesloaded.pkgd.min.js"></script>
+<script src="vendors/isotope/isotope.pkgd.min.js"></script>
+<script src="vendors/flexslider/jquery.flexslider-min.js"></script>
+<script src="js/theme.js"></script>
+</body>
+</html>
