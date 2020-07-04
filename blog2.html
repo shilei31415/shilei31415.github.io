@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
-    <title>Yolo 5 读书笔记</title>
+    <title>AutoDrive</title>
 
     <!--==========Dependency============-->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -105,85 +105,73 @@
                 <article class="single-post-content row m0 post">
                     <header class="row">
                         <h5 class="post-meta">
-                            <a class="date">2020 7 3</a>
+                            <a class="date">long long ago</a>
                             <span class="post-author"><i>by</i><a href="resume.html">施磊</a></span>
                         </h5>
-                        <h2 class="post-title">今天来学习一下Yolo5, 并做如下笔记</h2>
+                        <h2 class="post-title">回忆2019年江苏省机器人大赛中的"1:10无人车多车交互赛"</h2>
                         <div class="row">
                             <h5 class="taxonomy pull-left"><i>in</i> <a href="#">html</a></h5>
                         </div>
                     </header>
                     <div class="post-content row">
+                        <h4>
+                            2019年江苏省机器人大赛"1:10无人车多车交互赛", 我有幸带领我的小伙伴参加.
+                            最近由在简历中提到, 写此篇,作为补充说明.
+                        </h4>
+                        <br>
+                        <h3>1. 规则</h3>
+                        <p>详细规则有一大堆, 我便长话短说. "无人车" 这一比赛分为两个项目:</p>
+                        <h4>项目一: 超车及会车</h4>
+                        <p>在不违反交通规则的前提下, 超越前方龟速车, 进入逆向车道行驶, 遇到对向来车, 返回原车道</p>
+                        <br>
+                        <h4>项目二: 避障及斑马线前停车</h4>
+                        <p>
+                            在不违反交通规则的前提下, 遇到前方减速锥, 进入逆向车道行驶, 再次遇到前方减速锥,返回原车道;<br>
+                            与减速标线, 及时减速, 并在斑马线前停车, 等待5S, 后继续行驶过终点
+                        </p>
+                        <a href="#" style="font-size: 15pt">详细规则参见此处</a><br>
                         <h3>
-                            1. Yolo简介
+                            2. 视觉处理
+                        </h3>
+                        <h4>视觉处理部分主要由我完成, 当然也少不了小伙伴的帮助. 因此我可以较为详细的讲解视觉处理部分</h4>
+                        <h4>2.1 直线识别</h4>
+                        <p>我采用了霍夫直线变换, 进行直线的检测. 简单讲解一下霍夫直线检测的原理, 及使用</p>
+                        <br>
+                        <p>
+                            每一条直线都包含两独立个变量(无论哪种直线方程), 令该直线过一指定点后,
+                            直线方程就只包含一个独立变量, 或者说我可以找到直线方程中两个变量之间的关系.
+                            这里用   公式,
+                            由此求出图中直线
+                        </p>
+                        <p>
+                            根据求得的直线计算车辆与规定路线的偏离情况,借此控制车体
+                        </p>
+                        <br>
+                        <h3>
+                            3. 避障
+                        </h3>
+                        <h4>使用激光雷达进行障碍物的检测, 该部分有我的小伙伴"王海龙"实现, 在此进行简述</h4>
+                        <p>激光雷达的原理是, 发出一束激光, 并接受其反射信号, 计算二者时间差, 测出距离,
+                            如果我有无数个这样的装置, 对空间任意方向进行测量, 我就可以得到一个所在空间的不完整模型(可能有遮挡).
+                            现实中不可能使用那么多的激光发射器和激光传感器, 我们就让单个或多个激光发射器和激光传感器旋转起来,
+                            "扫描"指定空间.
+                        </p>
+                        <p>
+                            我们使用三杉的单线激光雷达, 测量距地面3cm高处的, 障碍物, 激光雷达用串口将扫描数据发送至电脑,
+                            通过筛选特定角度区域中, 距离小于阈值的点, 判断前方是否有障碍物. 例如, 前方-30至30°范围内,
+                            距离小于0.4m的点有20个, 我便认为前方出现障碍物, 并决定变道
+                        </p>
+                        <br>
+                        <h3>
+                            4. 串口通信
                         </h3>
                         <h4>
-                            Yolo, you only look once的简称, 我想作者是想借这个名字表达"这个网络识别速度很快, 看一眼的时间就足够他识别"(纯属瞎扯)<br>
-                            实际上Yolo也是一个卷积神经网络,如下图:(图片来源于网络)
-                        </h4>
-                        <div class="col-sm-12">
-                            <img src="images/blog/yolo.png" alt="loading picture" class="img-thumbnail">
-                        </div>
-                        <h4>
-                            不同与minst网络, Yolo最后输出一个张量(n*n*m)表示图片中各个物体的大小,种类,位置 这些关系,而不是想minst输出一个向量(1*n)
-                            表示图中出现物体的种类, 所以yolo无论是网络大小,还是功能,都远多于minst.<br>
-                            重点说一下最终的张量(n*n*m): <br>
-                            n*n: 许多网站上将它解释为,将输入图片分割为你n*n个小区域, 这话不错却也造成了许多误解; ①输入Yolo时并不需要将图像分割, 由N*N*3的图片
-                            直接卷积得到(n*n*m);②n*n中每一格代表原图中的一块区域, 看看上图CNN的原理就会懂, 卷积过程中张量的长宽不断减小, 从最后一层倒着看向第一层,
-                            就会发现, 最后一层的一格,代表第一层一个区域.<br>
-                            m=(类个数+5)*3: ①首先该网络需要完成分类, 目前大部分分类都采用类似方法: 分n个类,则输出n个数,表示该物体是:第一类的概率,第二类的概率.....第n类的概率
-                            哪一个概率最大我们便认为该物体属于这一类,因此始终有"类个数"; ② +5表示框, 如下图, Yolo的结果是输出一堆框, 每个框都必须由四个变量表示,
-                            在此Yolo选择了x,y,w,h这四个变量,第五个变量表示置信度, 待会再说; ③*3, 每个小区域内可能存在多个目标物体,因此一个小区域内预测三个框,但
-                            从结果可以看出, 并不是每一个区域内都有三个框, 这就是置信度的作用, 表示该框准确框到物体的概率, 借此筛掉多余的框.<br>
-                            其实并没有筛完, 所以Yolo后常跟随NMS(非极大值抑制). 至于如何通过卷积得到最后这个张量(n*n*m), 不同的版本有不同的卷积方式, 在此不做赘述
-                        </h4>
-                        <div class="col-sm-12">
-                            <img src="images/blog/yolo-result.png" alt="loading picture" class="img-thumbnail">
-                        </div>
-                        <h3>
-                            2. Yolo 5 网络结构
-                        </h3>
-                        <h4>
-                            Yolo5没有想Yolo3一样将网络结构保存为cfg文件, 而是保存为yaml文件, 导致我一开始也没看懂, 但只要找到yaml文件的读取方式,马上就可以知道网络结构了
-                            <div class="col-sm-12">
-                                <img src="images/blog/yolo5web.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-                            <br>之后我找到了读取yaml文件的程序 models/yolo.py中的Model类.<br>
-                            from代表输入层, -1即上一层输出通道数<br>
-                            number暂时没能理解,只知道它用于控制BottleneckCSP层中的通道数<br>
-                            args代表,输出通道数, kernel_size, stride<br>
-                            module代表网络层类型, 大致由以下几种:<br>
-                            <div class="col-sm-12">
-                                <img src="images/blog/focus.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-                            <div class="col-sm-12">
-                                <img src="images/blog/conv.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-
-                            <div class="col-sm-12">
-                                <img src="images/blog/BottleneckCSP.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-                            可见他们都是由简单网络层组成的, 所以整个yolo5s, 共有191层网络, 具体网络可以自己根据yaml文件画一画, 我就偷个懒,不在此显示了
-                        </h4>
-
-                        <h3>
-                            3. 修改网络
-                        </h3>
-                        <h4>
-                            Yolo每一个官方版本都是分80个类(咱也不知道为啥是80, 咱也不敢问), 但是往往在我们自己训练的时候不是80类, 所以第一步, 便是修改类个数
-                            ①打开yolo5s.yaml将nc(number of classes)改为类个数, 仅此而已, Yolo3还需要更具类个数自己计算网络输出的通道数<br>
-                            别人在训练的时候可能有很强的GPU, 但我没有, 于是②只能减小batch_size, 最终减到6, 勉强可以运行.<br>
-                            ③修改图片路径, 将自己的图片路径写入coco.yaml文件中, 并保证程序可以正确读取<br>
-                            最后便是等待结果, 同时可以享受一份RTX煎蛋(电脑是真的烫)
-                            <div class="col-sm-12">
-                                <img src="images/blog/training.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-                            <br>结果也很不错, 满意
-                        </h4>
-                        <h4>
-
-                        </h4>
-
+                            串口接入ubuntu后, ubuntu自动给他分配一个"编号", 如"ttyUSB0";
+                            我们通过串口控制底盘运动, 由于激光雷达和底盘控制都需要串口, 导致这一编号混乱,
+                            我们难以教会电脑:"是ttyUSB0代表雷达,还是ttyUSB1代表雷达"</h4>
+                        <p>
+                            我们通过"串口绑定"解决这一问题.
+                        </p>
                     </div>
                 </article>
             </div>
