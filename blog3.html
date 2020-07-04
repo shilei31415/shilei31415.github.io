@@ -167,12 +167,18 @@
                         </h4>
 
                         <h3>
-                            3. 准备训练数据
+                            3. 修改网络
                         </h3>
                         <h4>
-                            不知道这个网上下载的yolo5能读取哪种数据(xml, csv, yaml),因此找到了utils/datasets.py<br>
-                            与之前我看到的yolo3一样, 该文件可以自行下载训练集, 而且图片的labels同样是存在txt文件中, 但是我的数据是csv /(ㄒoㄒ)/~~<br>
-                            接下来就要自己编写一个csv转txt的代码 /(ㄒoㄒ)/~~
+                            Yolo每一个官方版本都是分80个类(咱也不知道为啥是80, 咱也不敢问), 但是往往在我们自己训练的时候不是80类, 所以第一步, 便是修改类个数
+                            ①打开yolo5s.yaml将nc(number of classes)改为类个数<br>
+                            别人在训练的时候可能有很强的GPU, 但我没有, 于是②只能减小batch_size, 最终减到6, 勉强可以运行.<br>
+                            ③修改图片路径, 将自己的图片路径写入coco.yaml文件中, 并保证程序可以正确读取<br>
+                            最后便是等待结果, 同时可以享受一份RTX煎蛋(电脑是真的烫)
+                            <div class="col-sm-12">
+                                <img src="images/blog/training.png" alt="loading picture" class="img-thumbnail">
+                            </div>
+                            <br>结果也很不错, 满意
                         </h4>
                         <h4>
 
