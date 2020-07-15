@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
-    <title>Yolo 5 读书笔记</title>
+    <title>NNI 优化 Yolo5</title>
 
     <!--==========Dependency============-->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -105,84 +105,109 @@
                 <article class="single-post-content row m0 post">
                     <header class="row">
                         <h5 class="post-meta">
-                            <a class="date">2020 7 3</a>
+                            <a class="date">2020 7 15</a>
                             <span class="post-author"><i>by</i><a href="resume.html">施磊</a></span>
                         </h5>
-                        <h2 class="post-title">今天来学习一下Yolo5, 并做如下笔记</h2>
+                        <h2 class="post-title">NNI 优化 Yolo5</h2>
                         <div class="row">
-                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">html</a></h5>
+                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">ANN</a> <a href="#">Python</a></h5>
                         </div>
                     </header>
                     <div class="post-content row">
                         <h3>
-                            1. Yolo简介
+                            1. NNI 简介
                         </h3>
-                        <h4>
-                            Yolo, you only look once的简称, 我想作者是想借这个名字表达"这个网络识别速度很快, 看一眼的时间就足够他识别"(纯属瞎扯)<br>
-                            实际上Yolo也是一个卷积神经网络,如下图:(图片来源于网络)
-                        </h4>
-                        <div class="col-sm-12">
-                            <img src="images/blog/yolo.png" alt="loading picture" class="img-thumbnail">
-                        </div>
-                        <h4>
-                            不同与minst网络, Yolo最后输出一个张量(n*n*m)表示图片中各个物体的大小,种类,位置 这些关系,而不是想minst输出一个向量(1*n)
-                            表示图中出现物体的种类, 所以yolo无论是网络大小,还是功能,都远多于minst.<br>
-                            重点说一下最终的张量(n*n*m): <br>
-                            n*n: 许多网站上将它解释为,将输入图片分割为你n*n个小区域, 这话不错却也造成了许多误解; ①输入Yolo时并不需要将图像分割, 由N*N*3的图片
-                            直接卷积得到(n*n*m);②n*n中每一格代表原图中的一块区域, 看看上图CNN的原理就会懂, 卷积过程中张量的长宽不断减小, 从最后一层倒着看向第一层,
-                            就会发现, 最后一层的一格,代表第一层一个区域.<br>
-                            m=(类个数+5)*3: ①首先该网络需要完成分类, 目前大部分分类都采用类似方法: 分n个类,则输出n个数,表示该物体是:第一类的概率,第二类的概率.....第n类的概率
-                            哪一个概率最大我们便认为该物体属于这一类,因此始终有"类个数"; ② +5表示框, 如下图, Yolo的结果是输出一堆框, 每个框都必须由四个变量表示,
-                            在此Yolo选择了x,y,w,h这四个变量,第五个变量表示置信度, 待会再说; ③*3, 每个小区域内可能存在多个目标物体,因此一个小区域内预测三个框,但
-                            从结果可以看出, 并不是每一个区域内都有三个框, 这就是置信度的作用, 表示该框准确框到物体的概率, 借此筛掉多余的框.<br>
-                            其实并没有筛完, 所以Yolo后常跟随NMS(非极大值抑制). 至于如何通过卷积得到最后这个张量(n*n*m), 不同的版本有不同的卷积方式, 在此不做赘述
-                        </h4>
-                        <div class="col-sm-12">
-                            <img src="images/blog/yolo-result.png" alt="loading picture" class="img-thumbnail">
-                        </div>
+                        <p>
+                            NNI (Neural Network Intelligence) 是自动机器学习（AutoML）的工具包。
+                            它通过多种调优的算法来搜索最好的神经网络结构和（或）超参，并支持单机、本地多机、云等不同的运行环境。<br>
+                            NNI开源地址：<a href="https://github.com/Microsoft/nni">https://github.com/Microsoft/nni</a><br>
+                            不同于神经网络中参数的调节, 使用NNI几乎可以调节任意参数, 无论该参数对所要求的指标可导或者不可导。<br>
+                            在神经网络中网络使用BP算法、梯度下降, 需要满足偏导数存在<br>
+                            我通过NNI调节yolov5中的 conf_thresh 和 iou_thresh 其实可以直接调节网络结构、学习率之类的值, 介于耗时太长, 没有调节
+                        </p>
                         <h3>
-                            2. Yolo 5 网络结构
+                            2. NNI的安装
                         </h3>
-                        <h4>
-                            Yolo5没有想Yolo3一样将网络结构保存为cfg文件, 而是保存为yaml文件, 导致我一开始也没看懂, 但只要找到yaml文件的读取方式,马上就可以知道网络结构了
-                            <div class="col-sm-12">
-                                <img src="images/blog/yolo5web.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-                            <br>之后我找到了读取yaml文件的程序 models/yolo.py中的Model类.<br>
-                            from代表输入层, -1即上一层输出通道数<br>
-                            number暂时没能理解,只知道它用于控制BottleneckCSP层中的通道数<br>
-                            args代表,输出通道数, kernel_size, stride<br>
-                            module代表网络层类型, 大致由以下几种:<br>
-                            <div class="col-sm-12">
-                                <img src="images/blog/focus.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-                            <div class="col-sm-12">
-                                <img src="images/blog/conv.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-
-                            <div class="col-sm-12">
-                                <img src="images/blog/BottleneckCSP.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-                            可见他们都是由简单网络层组成的, 所以整个yolo5s, 共有191层网络, 具体网络可以自己根据yaml文件画一画, 我就偷个懒,不在此显示了
-                        </h4>
-
+                        <p>
+                            具体安装可以参考<a href="https://blog.csdn.net/u014025201/article/details/87179698">https://blog.csdn.net/u014025201/article/details/87179698</a><br>
+                            我是通过下载github中的开源代码后使用pip安装: python3 -m pip install --upgrade nni
+                        </p>
                         <h3>
-                            3. 修改网络
+                            3. NNI的使用
                         </h3>
                         <h4>
-                            Yolo每一个官方版本都是分80个类(咱也不知道为啥是80, 咱也不敢问), 但是往往在我们自己训练的时候不是80类, 所以第一步, 便是修改类个数
-                            ①打开yolo5s.yaml将nc(number of classes)改为类个数, 仅此而已, Yolo3还需要根据类个数自己计算网络输出的通道数<br>
-                            别人在训练的时候可能有很强的GPU, 但我没有, 于是②只能减小batch_size, 最终减到6, 勉强可以运行.<br>
-                            ③修改图片路径, 将自己的图片路径写入coco.yaml文件中, 并保证程序可以正确读取<br>
-                            最后便是等待结果, 同时可以享受一份RTX煎蛋(电脑是真的烫)
-                            <div class="col-sm-12">
-                                <img src="images/blog/training.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-                            <br>结果也很不错, 满意
+                            3.1 修改函数
                         </h4>
+                        <p>
+                            找出哪些参数需要调节, 并将其与相关函数分离, 成为 main(params) 形式, 当然没有必要完全按照这个来, 只是这样看起来清晰明了。<br>
+                            该处需注意, 参数尽量为键值对形式 {key: value}, 方便NNI进行调节, 千万别像我一样用namesapce   <br>
+                        <div class="col-sm-12">
+                            <img src="images/blog/fuction.jpg" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        </p>
                         <h4>
-
+                            3.2 套路
                         </h4>
+                        <p>
+                            ①导入NNI模块 (import nni)<br>
+                            ②设置参数更新: nni.get_next_parameter()和params.update(tuner_params)<br>
+                        <div class="col-sm-12">
+                            <img src="images/blog/update.jpg" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        </p>
+                        <p>
+                            ③设置反馈 nni.report_final_result(指标)
+                        </p>
+                        <p>
+                            ④编写 config.yml 文件<br>
+                            设置 最大试验时间为1小时 maxExecDuration: 1h<br>
+                            设置 最大试验次数为100次 maxTrialNum: 100<br>
+                            搜索空间在search_space.json文件中 searchSpacePath: search_space.json<br>
+                            优化算法为TPE builtinTunerName: TPE<br>
+                            优化目标为使得指标最大 optimize_mode: maximize
+                            对python detect_nni.py进行实验 command: python detect_nni.py
+                        <div class="col-sm-12">
+                            <img src="images/blog/config.jpg" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        </p>
+                        <p>
+                            ⑤编写 search_space 文件<br>
+                            格式: "变量名":{"_type": 数据格式, "_value": [数据取值]}<br>
+                            数据格式有 uniform 和 choice (我就知道这两种☺)
+                        <div class="col-sm-12">
+                            <img src="images/blog/searchspace.jpg" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        </p>
+                        <p>
+                            在进行 conf_thresh 和 iou_thresh 的调节时为:<br>
+                            {<br>
+                            "conf_thres":{"_type":"uniform","_value":[0.0, 1.0]},<br>
+                            "iou_thres":{"_type":"uniform","_value":[0.0, 1.0]}<br>
+                            }<br>
+                        </p>
+                        <p>
+                            ⑥执行<br>
+                            终端输入: nnictl create --config 你的config文件<br>
+                            可以点开链接查看详细实验情况
+                        <div class="col-sm-12">
+                            <img src="images/blog/success.jpg" alt="loading picture" class="img-thumbnail">
+                            <img src="images/blog/detial.jpg" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        </p>
+                        <h3>
+                            4. 注意事项
+                        </h3>
+                        <p>
+                            在经历了4-5小时的试错后, 总结出以下注意事项:<br>
+                            ①变量名里不要出现'-'(减号), 因为在运行时就会莫名其妙的变为'_'(下划线), 我也不知道是不是和环境有关(ubuntu16.04+PyCharm2019)
+                            ②可以查看日志文件, 检查实验情况, 查找报错原因
+                        <div class="col-sm-12">
+                            <img src="images/blog/log.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        </p>
+                        <p>
+                            ③一定要反馈指标, 且指标必须是int或float
+                        </p>
 
                     </div>
                 </article>
