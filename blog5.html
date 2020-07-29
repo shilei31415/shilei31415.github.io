@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
-    <title>AutoDrive</title>
+    <title>RainBow 读书笔记与实践</title>
 
     <!--==========Dependency============-->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -103,137 +103,66 @@
                 <article class="single-post-content row m0 post">
                     <header class="row">
                         <h5 class="post-meta">
-                            <a class="date">long long ago</a>
+                            <a class="date">2020 7 27</a>
                             <span class="post-author"><i>by</i><a href="resume.html">施磊</a></span>
                         </h5>
-                        <h2 class="post-title">回忆2019年江苏省机器人大赛中的"1:10无人车多车交互赛"</h2>
+                        <h2 class="post-title">RainBow 读书笔记与实践</h2>
                         <div class="row">
-                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">html</a></h5>
+                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">ANN</a> <a href="#">Python</a></h5>
                         </div>
                     </header>
                     <div class="post-content row">
-                        <h4>
-                            2019年江苏省机器人大赛"1:10无人车多车交互赛", 我有幸带领我的小伙伴参加.
-                            最近由在简历中提到, 写此篇,作为补充说明.
-                        </h4>
-                        <br>
-                        <p>由于年代久远, 大部分图片资料已丢失, 本文大部分图片都来源于网络</p>
-                        <h3>1. 规则</h3>
-                        <p>详细规则有一大堆, 我便长话短说. "无人车" 这一比赛分为两个项目:</p>
-                        <h4>项目一: 超车及会车</h4>
-                        <p>在不违反交通规则的前提下, 超越前方龟速车, 进入逆向车道行驶, 遇到对向来车, 返回原车道</p>
-                        <br>
-                        <h4>项目二: 避障及斑马线前停车</h4>
-                        <p>
-                            在不违反交通规则的前提下, 遇到前方减速锥, 进入逆向车道行驶, 再次遇到前方减速锥,返回原车道;<br>
-                            与减速标线, 及时减速, 并在斑马线前停车, 等待5S, 后继续行驶过终点
-                        </p>
-                        <br>
                         <h3>
-                            2. 视觉处理
+                            1. DQN 简介
                         </h3>
-                        <p>视觉处理, 其实就是: 读入图片, 到计算出当前车体状态的过程, 这是本篇的重点</p>
-                        <h4>
-                            2.1 开发环境
-                        </h4>
                         <p>
-                            系统环境ubuntu16.04<br>
-                            使用CLion作为代码编写调试的平台<br>
-                            调用opencv中的函数进行图像的处理 识别<br>
-                            <div>
-                                <img src="images/blog/autodrive_env.png" alt="loading picture" class="img-thumbnail">
-                            </div>
+                            由于新冠肺炎疫情影响被困家中, 出于无聊和好奇, 开始学习强化学习, 本文是我对回忆过程的回忆, 也是对新算法(RainBow)的个人解读, 并附带实践效果.
                         </p>
-                        <h4>
-                            2.2 逆透视变换
-                        </h4>
                         <p>
-                            平直道路的道路标线相互平行, 永不相交, 但在人眼看来, 它们似乎都汇聚于一点, 这就是因为存在透视现象.
-                            这种现象增加了计算车体姿态的难度, 所以从摄像头获取图像后, 我们进行了逆透视变换<br>
-                            代码也不复杂, 仅仅调用了cv::warpPerspective(src, dst, warp_mat, size); 输入原图,目标图像和相应的变换矩阵即可.
-                            矩阵可以事先测量, 因为它仅与摄像头参数, 姿态有关, 详细方法可以查看:<br>
-                            <a href="https://blog.csdn.net/ganbelieve/article/details/91996326">https://blog.csdn.net/ganbelieve/article/details/91996326</a>
-                            <div>
-                                <img src="images/blog/change.gif" alt="loading picture" class="img-thumbnail">
-                            </div>
+                            在你面临人生艰难选择的时候, 如果有一个算法能为你的每一个选项进行评估, 评估该选项可能给你带来的"利益", 那么是不是就容易选择了呢?<br>
+                            Q-learning就是这种算法, 可惜目前只能运用于的一些简单的小游戏中, 可能简单到一个3*3的迷宫. 该算法的基本原理如下图:
                         </p>
-                        <h4>
-                            2.3 霍夫直线变换
-                        </h4>
-                        <p>
-                            霍夫直线变换可以理解为将图像中点的坐标(x,y), 转换为ρ Θ空间中的一条曲线, 曲线上每一点(ρ,Θ)代表一条过(x, y)的直线,
-                            该直线做垂线过原点, 垂线长度为ρ, 与坐标轴夹角为Θ. 当ρ Θ空间中两曲线相交于一点, 代表图像空间中的两点共线,
-                            当ρ Θ空间中五百条曲线相交于一点, 代表图像空间中的五百个点共线, 即我们常说的直线段<br>
-                            说白了,这就是用来找直线的, 具体变换可参考:<br>
-                            <a href="https://blog.csdn.net/shenziheng1/article/details/75307410">https://blog.csdn.net/shenziheng1/article/details/75307410</a>
-                            具体步骤如下:(相关图片没有保存)<br>
-                            ①图线二值化, 突出道路标线(白)与路面(黑)<br>
-                            ②Canny边缘检测, 可以理解为找出图片中像素值突变的区域(梯度大于阈值)<br>
-                            ③将检测结果输入霍夫变换<br>
-                        </p>
-                        <div>
-                            <img src="images/blog/autodrive_code.png" alt="loading picture" class="img-thumbnail">
+                        <div class="col-sm-12">
+                            <img src="images/blog/fuction.jpg" alt="loading picture" class="img-thumbnail">
                         </div>
                         <p>
-                            实际使用过程中, 效果却并不理想, 对同一道路标线, 常常检测出多条相交的直线, 因此我们还对这些直线进行了筛选.
-                            利用直线的ρ Θ值进行筛选,(图片很精彩,可惜没了) 找到最佳的两条, 求取平均, 得到最终的直线, 该直线的Θ表示了
-                            车体与目标方向的偏离程度, ρ表示了车体是靠近左标线还是靠近右标线
+                            可以看出, 该算法的精髓, 就在于根据输入的"当前状态", 得出该状态下"每一个动作"的Q值, 我个人将Q值理解为"利益", 其中包含了"短期利益"和"长期利益".
+                            long long ago, Q-learning还没有遇到ANN, 因此, 该算法需要一张表格(Q-table), 从表格中查询某一状态的下某一动作的Q值;
+                            起初, Q-table里全是0, 此时算法根据随机选择选取动作, 我理解为"一个啥也不知道的小孩(agent), 在探索世界", 每次"探索"都会根据得到的奖励R,
+                            对Q表进行更新, 我理解为"这个小孩在学习"; 理论上无限次重复该步骤, 一定能得到一个准确的Q-table, 实际上达不到无限次, 因此有了ε-greedy;
+                            ε表示了"这个小孩的好奇心", 随着"小孩""学习成长","好奇心逐渐下降", 开始"墨守成规"每一步都将遵循Q-table.
+                        </p>
+                        <p>
+                            当Q-learning遇上围棋时, Q-learning就不在适用, 因为围棋可能出现的状态数太多, 每一个状态下又对应上百个动作, 人类不可能记录如此巨大的Q-table,
+                            "每一个原子记录一个状态下的动作, 耗尽已知宇宙中的所有原子, 也不能完整的记录这张Q-table".
+                            因此有了DQN, 个人理解: 神经网络可以找到变量与变量之间的关系, Q-table纵然很巨大, 但其中的规律却可以被人类储存, 通过向神经网络输入状态, 就能得到相应动作的Q值.
+                            即Q-learning+ANN=DQN
+                        </p>
+                        <h3>
+                            2. RainBow
+                        </h3>
+                        <p>
+                            由于DQN可以自己"探索", 因此不会受到人类经验的影响, 这可以使DQN超越给予人类经验制造的AI, 例如: alpha-zero以100:0战胜了alpha-go; 当然超越人类也是轻而易举.
+                            同时, 这也限制了DQN的学习速度, 这相当于让"一个啥也不会的小孩, 在不向任何人学习的前提下, 自己探索, 走到学术前沿", 因为学习速度慢导致DQN至今也没有进入大家的日常生活.<br>
+                            在DQN的发展历史中出现了许多许多优化算法, 以提高DQN的学习速率, RainBow就是一个整合了6中优化算法而得出的新算法, 具体可以直接看原文:<br>
+                            <a href="rainbow.pdf">Rainbow: Combining Improvements in Deep Reinforcement Learning</a>
+
                         </p>
                         <h4>
-                            2.4 斑马线及停车线检测
+                            2.1 Double Q-learning
                         </h4>
                         <p>
-                            起初打算想道路标线检测一样, 使用霍夫直线检测, 判断前方是否有斑马线或停车线, 但效果不理想, 后尝试使用SVM, 判断图中是否有斑马线,
-                            结果SVM受环境影响较大.<br>
-                            最后决定使用最简单的方法: 计算图片中白色区域的面积<br>
-                            在正常道路上行驶, 只有两侧标线为白色, 白色较少, 当出现停车线及斑马线时, 白色区域增多, 同时为了避免环境亮度干扰, 以图像平均亮度作为二值化的阈值.
-                            这种方法简单粗暴, 但却很有效.
-                        </p>
-                        <h4>
-                            2.5 回想
-                        </h4>
-                        <p>
-                            现在回想起来, 当时的我真是又笨又勤奋, 现在我会使用神经网络, 输入图像, 输出控制车体的指令, 然后用遥控器训练它一周, 肯定跑的飞快
-                        </p>
-                        <br>
-                        <h3>
-                            3. 避障
-                        </h3>
-                        <h4>使用激光雷达进行障碍物的检测, 该部分有我的小伙伴"王海龙"实现, 在此进行简述</h4>
-                        <p>激光雷达的原理是, 发出一束激光, 并接受其反射信号, 计算二者时间差, 测出距离,
-                            如果我有无数个这样的装置, 对空间任意方向进行测量, 我就可以得到一个所在空间的不完整模型(可能有遮挡).
-                            现实中不可能使用那么多的激光发射器和激光传感器, 我们就让单个或多个激光发射器和激光传感器旋转起来,
-                            "扫描"指定空间.
-                        </p>
-                        <p>
-                            我们使用三杉的单线激光雷达, 测量距地面3cm高处的, 障碍物, 激光雷达用串口将扫描数据发送至电脑,
-                            通过筛选特定角度区域中, 距离小于阈值的点, 判断前方是否有障碍物. 例如, 前方-30至30°范围内,
-                            距离小于0.4m的点有20个, 我便认为前方出现障碍物, 并决定变道
-                        </p>
-                        <br>
-                        <h3>
-                            4. 串口通信
-                        </h3>
-                        <h4>
-                            串口接入ubuntu后, ubuntu自动给他分配一个"编号", 如"ttyUSB0";
-                            我们通过串口控制底盘运动, 由于激光雷达和底盘控制都需要串口, 导致这一编号混乱,
-                            我们难以教会电脑:"是ttyUSB0代表雷达,还是ttyUSB1代表雷达"</h4>
-                        <p>
-                            我们通过"串口绑定"解决这一问题.
+                            由于读过<a href="Deep%20Reinforcement%20Learning%20with%20Double%20Q-learning.pdf"> Double Q-learning的原文</a>,
+                            因此对Double Q-learning做详细解读;<br>
+                            传统神经网络, 在初始化时, 为各个参数赋予随机值, 这就导致Q-table在初始时不全为0, 有正有负, 正值, 即高估(overestimate)容易在选择动作时被选择,
+                            进而影想上一动作的Q值, 在不断学习过程中, 该高估无法被消除, 甚至能被不断放大, 由于初始化时随机赋值, 导致每个Q值的高估情况不同, 因而影想DQN最终效果.<br>
+                            该文章提出一种方法, 减少高估, 使用两个网络, 由eval-net得到动作选择, 在target-net得到相应动作的Q值, 只用当两个网络同时对某一动作产生高估时, 这一高估值才能向上一个动作的Q值传递,
+                            否则该高估值将被减弱, 由于两个网络都是用随机数初始化, 同时对一个状态产生高估的概率减小.<br>
+                            其余算法参考<a href="https://www.jianshu.com/p/1dfd84cd2e69">https://www.jianshu.com/p/1dfd84cd2e69</a>
                         </p>
                         <h3>
-                            5. 代码
+                            3. 具体实现
                         </h3>
-                        <p>
-                            具体代码参考我的<a href="https://github.com/shilei31415/AutoDrive">github</a>
-                        </p>
-                        <h3>
-                            6. 参赛视频
-                        </h3>
-                        <p>
-                            最后给大家献上参赛视频<br>
-                            <a href="https://www.bilibili.com/video/BV1iV411k7Eg?from=search&seid=6004852311073970695"><img src="images/blog/bilibili.png"></a>
-                        </p>
                     </div>
                 </article>
             </div>
