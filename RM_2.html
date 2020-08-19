@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
+    <title>视觉代码讲解(二)</title>
+
+    <!--==========Dependency============-->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendors/owl-carousel/assets/owl.carousel.css">
+    <link rel="stylesheet" href="vendors/magnific-popup/magnific-popup.css">
+    <link rel="stylesheet" href="vendors/flexslider/flexslider.css">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kanit:500">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans:600,700italic">
+    <link href='https://fonts.googleapis.com/css?family=Dosis:400,200,300,500,600,800,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:400,300,300italic,400italic">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500italic,500,700italic,700,900,900italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
+
+    <!--==========Theme Styles==========-->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/theme/green.css" rel="stylesheet">
+
+    <!--========== HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries ==========-->
+    <!--========== WARNING: Respond.js doesn't work if you view the page via file:// ==========-->
+    <!--==========[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]==========-->
+</head>
+<style>
+    .Black{
+        background-color: green;
+    }
+</style>
+<body>
+
+<header class="row transparent white" data-spy="affix" data-offset-top="300" id="header">
+    <div class="container">
+        <div class="row top-header">
+            <div class="col-sm-4 search-form-col">
+                <form action="#" method="get" class="search-form">
+                    <div class="input-group">
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-4 logo-col text-center">
+                <h3>The world of 施磊</h3>
+            </div>
+            <div class="col-sm-4 menu-trigger-col">
+                <button class="menu-trigger black pull-right">
+                    <span class="active-page">Blog Details</span>
+                    <img src="images/menu-align-dark.png" alt="" class="icon-burger">
+                    <img src="images/menu-close-dark.png" alt="" class="icon-cross">
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row menu-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 menu-col">
+                    <div class="row">
+                        <ul class="nav column-menu white-bg">
+                            <li class="active dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Home <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="index2.html">2020-6月</a></li>
+                                    <li><a href="index3.html">Home Option 3</a></li>
+                                    <li><a href="index4.html">Home Option 4</a></li>
+                                    <li><a href="index5.html">Home Option 5</a></li>
+                                    <li><a href="index6.html">Home Option 6</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="resume.html">resume(个人简历)</a></li>
+                            <li><a href="single.html">my memery(我的回忆)</a></li>
+                            <li><a href="single2.html">my store(我的小店)</a></li>
+                        </ul>
+                        <ul class="nav column-menu white-bg">
+                            <li><a href="single3.html">I'm reading(最近在读)</a></li>
+                            <li><a href="single3.html">I'm doing(最近在做)</a></li>
+                            <li><a href="https://github.com/shilei31415">github</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4 subscribe-col">
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="row content-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 single-post-contents">
+                <article class="single-post-content row m0 post">
+                    <header class="row">
+                        <h5 class="post-meta">
+                            <a class="date">2020 8 18</a>
+                            <span class="post-author"><i>by</i><a href="resume.html">施磊</a></span>
+                        </h5>
+                        <h2 class="post-title">RM 2020赛季已经结束,本文主要讲解Ubuntu及OpenCV</h2>
+                        <div class="row">
+                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">Ubuntu</a> <a href="#">OpenCV</a></h5>
+                        </div>
+                    </header>
+                    <div class="post-content row">
+                        <h4>
+                            讲解RM视觉部分(一) 英雄 步兵 哨兵的通用OpenCV(Open Computer Vision 开源计算机视觉)部分
+                        </h4>
+                        <p>
+                            学弟们在看该部分代码之前,应该 ①熟悉《OpenCV3编程入门》(毛星云版)的前8章,(熟悉:要么你能背诵,
+                            要么可以在5秒之内在找到你想要的函数);<br>
+                            ②知道计算机视觉所涉及到的几大坐标系(世界坐标系,相机坐标系,图像平面坐标系....)
+                            <a href="https://blog.csdn.net/weizhangyjs/article/details/81020177">https://blog.csdn.net/weizhangyjs/article/details/81020177</a>
+                            (能看懂即可,我的代码里涉及到坐标系变换,PnP里也涉及到坐标系变换)<br>
+                            ③除上述,你还必须掌握的OpenCV:PnP, kalman滤波<br>
+                            ④当然,C++还是得会,C++多线程要会
+                            ⑤会看别的学校的代码,可以在github上找到
+                        </p>
+                        <h3>
+                            1.调试工具
+                        </h3>
+                        <p>
+                            由于经常需要调试程序,输出一些变量啊,看一些变量的变化情况啊,所以把常用的那几个封装在一起
+                        </p>
+                        <h3>
+                            Debug
+                        </h3>
+                        <p>
+                            反正没人喜欢看字,就看图吧,当然还有一些宏定义方便调用
+                        </p>
+                        <div class="col-sm-12">
+                            <img src="images/RM/pic_4.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-12">
+                            <img src="images/RM/pic_5.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <h3>
+                            JLink
+                        </h3>
+                        <div class="col-sm-12">
+                            <img src="images/RM/pic_6.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <p>
+                            主要用来显示一些变量的变化情况,一般用于调kalman滤波的参数,我搞的太花里胡哨了,所以调用的时候会极大降低识别速度,慎用
+                        </p>
+                        <h3>
+                            2.步入正题
+                        </h3>
+                        <div class="col-sm-12">
+                            <img src="images/RM/pic_8.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <p>↑ 以上为原图, 减小光圈,降低曝光有利识别, 降低曝光至刚好可以看清数字</p>
+                        <h4>
+                            2.1识别灯条
+                        </h4>
+                        <p>
+                            开始RM视觉的编写后,你会发现你永远离不开灯条识别、灯条匹配,以下都是我们的方法,仅供参考,你们可以写出更好的<br>
+                            灯条识别的基本步骤: 二值化->边缘检测->最小包围图形->筛选<br><br>
+                            (一)二值化:找出图片中敌方的颜色<br>
+                            你们一定会听到"一定要优化灯条匹配的条件,节约时间,因为那里有两层for"这类的话.
+                            两层for的时间复杂度为O(n^2),比较耗时, 其实还有一个地方有两层for---二值化<br>
+                            二值化,你必须遍历每一个像素点,如果把图像看成二维数组,将用两重for遍历,
+                            在640*480的图像中这一步的耗时将多于灯条匹配. 所以我直接遍历所有像素,筛选出目标颜色(函数Contours TargetFind::getContours)<br>
+                            相比于有些学校使用的"先转灰度图,在阈值化(找到亮的区域),再选出想要的颜色"这种方法要快2ms左右
+                        </p>
+                        <div class="col-sm-12">
+                            <img src="images/RM/pic_7.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-12">
+                            <img src="images/RM/pic_9.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <p>
+                            当然,还有更好的方法可以提高识别速率
+                        </p>
+                        <br>
+                        <p>
+                            (二)边缘检测:找到灯条的轮廓方便后续匹配<br>
+                            边缘检测基本就是调用书里的函数,在这里不多讲,你至少要知道每个参数的意义
+                        </p>
+                        <br>
+                        <p>
+                            (三)最小包围图形<br>
+                            为啥这里说的是最小包围图形, 因为我尝试过最小包围矩形,和椭圆拟合(cv::fitEllipse椭圆拟合),
+                            椭圆效果略好一点点(不是很明显),当然建议你们都尝试一下,可能是我参数没调好.<br>
+                            这里一定要注意!!!!!!!!!一定要了解opencv中旋转矩形的表示方法,因为你会发现:有时两个相互平行的旋转矩形,角度相差90度.
+                        </p>
+                        <br>
+                        <p>
+                            (四)识别条件<br>
+                            识别灯条的条件一般为:长宽,面积,角度; 相管阈值还是要自己调
+                        </p>
+                        <h4>
+                            2.2灯条匹配(装甲板识别)
+                        </h4>
+                        <p>
+                            两重for循环遍历灯条的两两组合, 找到符合条件的组合(装甲)
+                        </p>
+                        <p>
+                            这里列举以下, 我用到的条件:<br>
+                            ①灯条大小接近;<br>
+                            ②角度接近<br>
+                            ③错配度(函数 malposition)较小(这里我参考了上海交大的代码)<br>
+                            ④面积和距离满足比值条件<br>
+                            这些条件可以识别交近距离内(3m之内),大部分装甲板
+                        </p>
+                        <p>
+                            以下是子午用的方法:<br>
+                            三维的装甲板四个特征点通过坐标变换可以得到图像中的特征点. 子午通过计算变换矩阵,判断是否为装甲板
+                        </p>
+                        <div class="col-sm-12">
+                            <img src="images/RM/pic_10.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <h4>
+                            以上是装甲识别部分, 具体的实现还是要看代码, 还是要自己动手写
+                        </h4>
+                        <h4>
+                            PS:图像的显示在调试的时候很有用,但在比赛的时候一点用也没有,建议使用单独的线程进行显示,不影响识别速率,不影响预测的△t
+                        </h4>
+                    </div>
+                </article>
+            </div>
+
+            <!--Author Widget-->
+            <div class="col-md-4 sidebar">
+                <aside class="row m0 widget-author widget">
+                    <div class="widget-author-inner row">
+                        <div class="author-avatar row"><a href="#"><img src="images/author.jpg" alt="" class="img-circle"></a></div>
+                        <a href="#"><h2 class="author-name">施磊</h2></a>
+                        <h5 class="author-title">以老王卖瓜的方式讲解自己的代码</h5>
+                        <p>2020赛季以答辩形式结束,学弟们没能积攒到足够的经验,希望这些博客能给予你们帮助,相信你们能写出更棒的</p>
+                        <a href="resume.html" class="taxonomy" style="font-size: 15pt">resume</a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Footer-->
+<footer class="row" id="footer">
+    <div class="container">
+        <div class="row top-footer">
+            <div class="widget col-sm-3 widget-about" >
+                <h3>The world of 施磊</h3>
+            </div>
+            <div class="widget col-sm-5 widget-menu">
+                <div class="row">
+                    <ul class="nav column-menu white-bg">
+                        <li class="active"><a href="index.html">Home</a></li>
+                        <li><a href="resume.html">resume</a></li>
+                        <li><a href="single.html">my memery</a></li>
+                        <li><a href="single2.html">my store</a></li>
+                    </ul>
+                    <ul class="nav column-menu white-bg">
+                        <li><a href="single3.html">I'm reading</a></li>
+                        <li><a href="single3.html">I'm doing</a></li>
+                        <li><a href="https://github.com/shilei31415">github</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="widget col-sm-4 widget-subscribe">
+
+            </div>
+        </div>
+        <h5 class="copyright">Thanks for <a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></h5>
+    </div>
+</footer>
+
+<!--========== jQuery (necessary for Bootstrap's JavaScript plugins) ==========-->
+<script src="js/jquery-2.2.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="vendors/owl-carousel/owl.carousel.min.js"></script>
+<script src="vendors/magnific-popup/jquery.magnific-popup.min.js"></script>
+<script src="vendors/instafeed/instafeed.min.js"></script>
+<script src="vendors/imagesLoaded/imagesloaded.pkgd.min.js"></script>
+<script src="vendors/isotope/isotope.pkgd.min.js"></script>
+<script src="vendors/flexslider/jquery.flexslider-min.js"></script>
+<script src="js/theme.js"></script>
+</body>
+</html>
