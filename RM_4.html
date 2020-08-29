@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
-    <title>视觉代码讲解(一)</title>
+    <title>视觉代码讲解(四)</title>
 
     <!--==========Dependency============-->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -103,106 +103,122 @@
                 <article class="single-post-content row m0 post">
                     <header class="row">
                         <h5 class="post-meta">
-                            <a class="date">2020 8 18</a>
+                            <a class="date">2020 8 29</a>
                             <span class="post-author"><i>by</i><a href="resume.html">施磊</a></span>
                         </h5>
-                        <h2 class="post-title">RM 2020赛季已经结束,本文主要讲解Ubuntu及OpenCV</h2>
+                        <h2 class="post-title">不仅仅是识别那么简单</h2>
                         <div class="row">
-                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">Ubuntu</a> <a href="#">OpenCV</a></h5>
+                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">坐标变换</a> <a href="#">OpenCV</a></h5>
                         </div>
                     </header>
                     <div class="post-content row">
                         <h4>
-                            回答一些学弟可能提出的疑问, 推荐一些教程 链接, 帮助入门
+                            坐标变换
                         </h4>
-                        <br>
-                        <h3>
-                            1.为什么要用Ubuntu?
-                        </h3>
                         <p>
-                            个人认为原因如下:<br>
-                            ①ubuntu比较小,可以安装在许多硬件上(tx2/NUC);<br>
-                            ②运行速度比Windows快,因为ubuntu较小,运行自己程序时不像Windows需要调用其他许多东西(具体啥,我也不清楚).
-                            同样的程序ubuntu上运行速度比Windows快10%左右.<br>
-                            ③权利无限大,你是否有Windows上流氓软件卸不掉的经验,Ubuntu上不存在的,知道密码你甚至可把Ubuntu整个删掉(所以我最近比较喜欢用Ubuntu)<br>
-                            建议参考<a href="https://www.jianshu.com/p/2ad73fb3855e">https://www.jianshu.com/p/2ad73fb3855e</a>
-                            和<a href="https://blog.csdn.net/kellyroslyn/article/details/91608204">https://blog.csdn.net/kellyroslyn/article/details/91608204</a>
-                            这两个教程并未亲测,但和我之前看的教程很像(时间久远已丢失)
+                            希望学弟们在看本文之前先把线性代数学好
                         </p>
                         <h3>
-                            2.关于ubuntu的建议(影响不大,可不看)
+                            1.坐标变换
                         </h3>
                         <p>
-                            ①在安装Ubuntu时尽量多分配一些空间
+                            其实,从物体的坐标(x,y,z)对应到图像中的坐标(x,y),经历了两次坐标变换,一共涉及到三个坐标系(分别是: 世界坐标系, 相机坐标系, 图像平面坐标系),
+                            三者具体是啥, 相互之间怎么转换, 可以参考-><a href="https://www.bilibili.com/video/BV1C54y1B7By?from=search&seid=7393549921458883085">相机标定</a><br>
                         </p>
                         <div class="col-sm-12">
-                            <img src="images/RM/pic_2.png" alt="loading picture" class="img-thumbnail">
+                            <img src="images/RM/pic_16.png" alt="loading picture" class="img-thumbnail">
                         </div>
+                        <h3>
+                            2.相机标定
+                        </h3>
                         <p>
-                            多说都是泪,看图吧. 当然有些视频 学习资料 训练数据我没删,所以占那么多,相信你好好管理,250GB是够用的,不然可能面临重装.
+                            了解了CV中的各种坐标系之后, 标定就是测量相机坐标系到图像平面坐标系的变换矩阵(相机矩阵), 以及衡量图像畸变的畸变矩阵, 二者合称内参, 只与相机有关.
+                            世界坐标系到相机坐标系的变换矩阵显然与相机姿态有关, 被称为外参.<br>
+                            只要是将CV算法应用到实际, 都要涉及到相机标定. 具体标定代码, 可以参考:<a href="https://blog.csdn.net/czhzasui/article/details/83273380">OpenCV相机标定</a>, 当然也可以直接看我的代码.<br>
+                            网上大部分标定教程都是为了校正图像的畸变, 我们则是为了后续的坐标变换, 为了PnP, 在我测试过程中, 图像几乎没有畸变, 不需要校正, 提高帧率.
                         </p>
+                        <h3>
+                            3.PnP(Perspective-n-Point)
+                        </h3>
                         <p>
-                            ②安装的时候语言选择英文,可以练一练英文O(∩_∩)O哈哈哈~,其实主要是为了之后的文件路径都是英文,中文路径容易出错.
-                            其实安装完成后可以修改语言,但要注意路径保持英文. 成功的话如下图:
+                            PnP是一种算法,不是三极管!!!! 具体原理参考: <a href="https://blog.csdn.net/u014709760/article/details/88029841">PnP 算法原理</a>
+                            看看原理就好, 看看他怎么调用OpenCV的.<br>
+                            PnP可以求出R, T, R表示世界坐标系怎样旋转可以变为相机坐标系, T表示世界坐标系的原点需要怎样平移能与相机坐标系重合.<br>
+                            如果我们将世界坐标系与我们要击打的装甲板进行固连(以装甲板的中心点为世界坐标系原点, 以装甲板长方向为X周, 宽方向为Y轴, 垂直装甲板面向外为Z轴),
+                            当然这里只是我使用的方式, 还可以是其他, 以下为具体实现, 只需算出在你定义的世界坐标系下,各个特征点的坐标即可.
                         </p>
                         <div class="col-sm-12">
-                            <img src="images/RM/pic_1.png" alt="loading picture" class="img-thumbnail">
+                            <img src="images/RM/pic_18.png" alt="loading picture" class="img-thumbnail">
                         </div>
                         <p>
-                            文件名是Music Picture Video,而不是 音乐 图片 视频
-                        </p>
-                        <p>
-                            ③基本命令要会,不用会太多,"增删改查"及一些常用命令就够了<br>
-                            "增"可以用命令新建文件 文件夹<br>
-                            "删"可以用命令删除文件 清空文件夹<br>
-                            "改"可以用命令修改文件权限 移动文件<br>
-                            "查"可以用命令查看文件夹中的内容...<br>
-                            还有一些脚本语言(shell),你起码可以用脚本让你的程序实现"开机自启动""程序意外终止后重启"<br>
-                            其他还用很多需要掌握的,建议开始的时候时间较为充裕,尽量用命令,而不是GUI
-                        </p>
-                        <p>
-                            ④当你配置完环境,装好程序,马上把你的系统转为镜像文件,防止有一天"一切归0"(梅老板推荐)
-                        </p>
-                        <p>
-                            ⑤最初上手,建议安装Ubuntu16.04.<br>
-                            因为ubuntu16.04的教程比较多,当你熟悉后可以考虑使用18.04(18.04相关的较少,如果报错你难以找到解决方法)
+                            此时, T便可以理解为: 在相机坐标系下的装甲板中心坐标. (重点, 下文要用到的)
                         </p>
                         <h3>
-                            3.配置OpenCV
+                            4.机器人坐标系
                         </h3>
                         <p>
-                            在配置OpenCV前, 建议先安装QT, 直接使用apt安装即可,不需要安装完整的QT<br>
-                            然后你就可以配置opencv了;建议按照这个教程<a href="https://blog.csdn.net/cbd_2012/article/details/87783405">https://blog.csdn.net/cbd_2012/article/details/87783405</a><br>
-                            记得勾选QT!!!!
-                        </p>
-                        <h3>
-                            4.安装CLion和PyCharm
-                        </h3>
-                        <p>
-                            CLion编写C++,PyCharm编写python(神经网络会用到),python需要注意配置环境,
-                            个人觉得(每当我说这句话,代表我并没有尝试过,但觉得可)不需要安装anaconda,直接安装Python>3.5,然后用pip配置环境(tensorflow或pytroch和opencv-py....)<br>
-                            这里你们可能会用到<a href="https://blog.csdn.net/yuzaipiaofei/article/details/80891108">pip换源</a>,当你pip install极其缓慢时,换用国内源可以快亿点
-                        </p>
-                        <p>
-                            建议先自己安装破解,从中或许你能学到些关于Ubuntu的知识,如果实在不行,可以参考<a href="https://pan.baidu.com/s/1nwz06IOOb_647MieMFKmgw ">百度网盘,提取码: x78u</a>
-                        </p>
-                        <h3>
-                            5.学会使用cmake
-                        </h3>
-                        <p>
-                            不要求cmake使用的多么6,但至少可以做到:不用CLion也可以编译简单C++程序,会编写CLion中的CMakeLists.txt文件
+                            假如我们已经准确识别到了对手, 对方没动, 而我方因为自瞄,操作手走位, 导致我方机器人姿态变换, 必然会造成敌方装甲板在图像中的位置变化,
+                            此时, 如果你使用装甲板的像素坐标的变化对敌方装甲进行预测, 基本不可能正确.(敌方未动, 而你却觉得动了, 效果肯定不好). <br>
+                            引入"机器人坐标系"(瞎编的概念,不学术), 机器人初始化时!!!!!, 枪口水平向前(为Z轴), 垂直于枪管向右,向下为X轴和Y轴, 各轴方向不随机器人(pitch,yaw)而变化, 不转动仅平动. <br>
+                            这么定义的目的:<br>
+                            ① 初始状态, 电控初始化, 枪口水平朝向正前方(电控给视觉发送的pitch=0,yaw=0), 机器人坐标系与摄像头坐标系几乎重合(各轴相互平行, 原点不一定重合);<br>
+                            ② 运动时, 电控发送给视觉的pitch≠0,yaw≠0, (pitch为俯仰角), pitch和yaw就表示了摄像头坐标系到机器人坐标系的变换关系
+                            (pitch为0时, yaw代表摄像头坐标系X与机器人坐标系X的夹角, yaw为0时, pitch表示摄像头坐标系Z与机器人坐标系Z的夹角),当时推了一下午得到如下变换矩阵:
                         </p>
                         <div class="col-sm-12">
-                            <img src="images/RM/pic_3.png" alt="loading picture" class="img-thumbnail">
+                            <img src="images/RM/pic_17.png" alt="loading picture" class="img-thumbnail">
                         </div>
+                        <p>
+                            后来发现具体推导可以参考CV中世界坐标系与相机坐标系的变换, 也可以直接用"罗德里格斯变换", 我还是菜了<br>
+                            使用该矩阵将PnP结果变为"机器人坐标系"下的坐标, 由于机器人坐标系不转动仅平动, 使用该坐标可以排除机器人pitch轴与yaw轴转动对预测带来的误差.<br>
+                            机器人平动造成的误差不应该考虑(具体为啥, 参考大学物理)<br>
+                            使用该方法预测敌方, 可以得到地方下一时刻的机器人坐标, 在用逆矩阵变为相机坐标, 乘相机矩阵得到像素坐标
+                        </p>
+                        <div class="col-sm-12">
+                            <img src="images/RM/pic_19.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <h4>
+                            注意事项:
+                        </h4>
+                        <p>
+                            进行了上述骚操作, 可以将预测结果画至图中, 无论自己动还是不动, 只要敌方不动, 预测结果就与装甲板中心重合(即与世界坐标系原点重合);<br>
+                            预测结果, 可能存在抖动, 与pitch, yaw, 装甲板的像素坐标测量不准有关.
+                        </p>
                         <h3>
-                            6.其他
+                            5.kalman滤波
                         </h3>
                         <p>
-                            同组成员需要进行大量的文件传输, 建议直接使用QQ邮箱, 可以实现不同系统之间的传输, 同时不用安装其他应用.<br>
-                            学会使用各种学习资源:<a href="https://www.baidu.com">百度</a> <a href="https://www.csdn.net/">CSDN</a>
-                            <a href="https://www.bilibili.com">bilibili</a>  <a href="https://github.com/">github</a>.........<br>
-                            github, 能在上面找到想要的代码, 需要会上传项目, 才有可能像我一样给自己放彩虹皮.
+                            kalman虽然属于信号处理, 但OpenCV有相关函数. 具体原理吃了线代的亏,没看懂. 只会写个状态转移矩阵. 希望大家不要像我一样, 只有搞懂原理才有可能把他发挥到极致<br>
+                            简单说一下我怎么用kalman的. 前面说过预测存在抖动, kalman就可以解决. 你可以在预测前对输入数据(装甲的像素坐标)进性滤波, 也可以在也测后滤波,
+                            甚至两次都滤波(我采用了两次都滤的方法)<br>
+                            需要能通过识别程序得知是否切换目标, 每次切换目标需要对kalman中的数据(除了状态转移矩阵)进行初始化, 否则相当于告诉滤波器"目标发生瞬移",
+                            通常这严重违背状态转移矩阵, 会造成切换目标后的前10帧数据误差极大, 以下分别为"变换目标就初始化"(上)和"变换目标不初始化"(下),其余参数相同,
+                            紫色为滤波后, 绿色为滤波前.
+                        </p>
+                        <div class="col-sm-12">
+                            <img src="images/RM/pic_20.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-12">
+                            <img src="images/RM/pic_21.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <h3>
+                            6.空气阻力
+                        </h3>
+                        <p>
+                            上赛季花了大量时间研究空气阻力, 最后也没搞出什么, 我使用F正比于V^2, 做了数值模拟, 并测量了实际曲线, 并不是很理想; 感兴趣的可以再试一试<br>
+                            随着弹丸的速度下降, 滞空时间延长, 抛物线越发明显, 空气阻力的影响加大, 如何根据目标距离, 子弹射速, 计算仰角将越来越难.<br>
+                            省赛尝试使用matlab拟合仰角, 子弹速度, 目标距离之间的关系, 效果不错, 建议使用<br>
+                            但要注意:<br>
+                            ① 电控需要保证子弹射速稳定; 不因电量, 电压而变化; 连发速度下降不明显;
+                            ② 如果电控和结构做的特别好, 可以保证摩擦轮转速, 与子弹射速存在稳定关系, 可以直接拟合"仰角, 摩擦轮转速, 目标距离";
+                            ③ 数据越多越准确, 尽量覆盖可能使用到的范围.
+                        </p>
+                        <h3>
+                            7.其他
+                        </h3>
+                        <p>
+                            关于串口通信提一个我个人觉得好用的方法: 如果发现, 机器人枪口需要较长时间才能到达指定方向, 到达指定方向后有需要较长时间才能稳定(不抖动),
+                            可以尝试将串口数据变为原来的3次方并乘一定系数, 保证正负号的同时, 放大较远时的偏移量, 缩小较近时的偏移量.
                         </p>
                     </div>
                 </article>

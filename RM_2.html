@@ -106,7 +106,7 @@
                             <a class="date">2020 8 18</a>
                             <span class="post-author"><i>by</i><a href="resume.html">施磊</a></span>
                         </h5>
-                        <h2 class="post-title">RM 2020赛季已经结束,本文主要讲解Ubuntu及OpenCV</h2>
+                        <h2 class="post-title">RM 2020赛季已经结束,本文主要讲解OpenCV识别程序</h2>
                         <div class="row">
                             <h5 class="taxonomy pull-left"><i>in</i> <a href="#">Ubuntu</a> <a href="#">OpenCV</a></h5>
                         </div>
@@ -170,7 +170,8 @@
                             两层for的时间复杂度为O(n^2),比较耗时, 其实还有一个地方有两层for---二值化<br>
                             二值化,你必须遍历每一个像素点,如果把图像看成二维数组,将用两重for遍历,
                             在640*480的图像中这一步的耗时将多于灯条匹配. 所以我直接遍历所有像素,筛选出目标颜色(函数Contours TargetFind::getContours)<br>
-                            相比于有些学校使用的"先转灰度图,在阈值化(找到亮的区域),再选出想要的颜色"这种方法要快2ms左右
+                            相比于有些学校使用的"先转灰度图,在阈值化(找到亮的区域),再选出想要的颜色"这种方法要快2ms左右<br>
+                            同时,使用
                         </p>
                         <div class="col-sm-12">
                             <img src="images/RM/pic_7.png" alt="loading picture" class="img-thumbnail">
@@ -196,7 +197,7 @@
                         <br>
                         <p>
                             (四)识别条件<br>
-                            识别灯条的条件一般为:长宽,面积,角度; 相管阈值还是要自己调
+                            识别灯条的条件一般为:长宽,面积,角度; 相关阈值还是要自己调
                         </p>
                         <h4>
                             2.2灯条匹配(装甲板识别)
