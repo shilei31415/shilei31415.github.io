@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
-    <title>Yolo 5 读书笔记</title>
+    <title>视觉代码讲解(四)</title>
 
     <!--==========Dependency============-->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -103,85 +103,49 @@
                 <article class="single-post-content row m0 post">
                     <header class="row">
                         <h5 class="post-meta">
-                            <a class="date">2020 7 3</a>
+                            <a class="date">2020 8 30</a>
                             <span class="post-author"><i>by</i><a href="resume.html">施磊</a></span>
                         </h5>
-                        <h2 class="post-title">今天来学习一下Yolo5, 并做如下笔记</h2>
+                        <h2 class="post-title">其他技术</h2>
                         <div class="row">
-                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">html</a></h5>
+                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">OpenCV</a></h5>
                         </div>
                     </header>
                     <div class="post-content row">
-                        <h3>
-                            1. Yolo简介
-                        </h3>
                         <h4>
-                            Yolo, you only look once的简称, 我想作者是想借这个名字表达"这个网络识别速度很快, 看一眼的时间就足够他识别"(纯属瞎扯)<br>
-                            实际上Yolo也是一个卷积神经网络,如下图:(图片来源于网络)
+                            介绍一下RM中可能用到的其他技术
                         </h4>
+                        <h3>
+                            1.Darknet
+                        </h3>
+                        <p>
+                            yolo的作者自己写了一个深度学习的框架叫Darknet, 使用C语言编写, 我们有使用过!!!<br>
+                            但我用过yolo(yolo3,yolo5), 从yolo的效果来看Darknet应该也不会差, 但yolo中有许多网络层OpenCV中没有,
+                            因此OpenCV调用yolo比较困难, 但OpenCV却有Darknet的相关接口, 可以直接调用Darknet的结果.<br>
+                            以下为我使用yolo5的识别效果.
+                        </p>
                         <div class="col-sm-12">
-                            <img src="images/blog/yolo.png" alt="loading picture" class="img-thumbnail">
+                            <img src="images/RM/pic_22.png" alt="loading picture" class="img-thumbnail">
                         </div>
-                        <h4>
-                            不同与minst网络, Yolo最后输出一个张量(n*n*m)表示图片中各个物体的大小,种类,位置 这些关系,而不是想minst输出一个向量(1*n)
-                            表示图中出现物体的种类, 所以yolo无论是网络大小,还是功能,都远多于minst.<br>
-                            重点说一下最终的张量(n*n*m): <br>
-                            n*n: 许多网站上将它解释为,将输入图片分割为你n*n个小区域, 这话不错却也造成了许多误解; ①输入Yolo时并不需要将图像分割, 由N*N*3的图片
-                            直接卷积得到(n*n*m);②n*n中每一格代表原图中的一块区域, 看看上图CNN的原理就会懂, 卷积过程中张量的长宽不断减小, 从最后一层倒着看向第一层,
-                            就会发现, 最后一层的一格,代表第一层一个区域.<br>
-                            m=(类个数+5)*3: ①首先该网络需要完成分类, 目前大部分分类都采用类似方法: 分n个类,则输出n个数,表示该物体是:第一类的概率,第二类的概率.....第n类的概率
-                            哪一个概率最大我们便认为该物体属于这一类,因此始终有"类个数"; ② +5表示框, 如下图, Yolo的结果是输出一堆框, 每个框都必须由四个变量表示,
-                            在此Yolo选择了x,y,w,h这四个变量,第五个变量表示置信度, 待会再说; ③*3, 每个小区域内可能存在多个目标物体,因此一个小区域内预测三个框,但
-                            从结果可以看出, 并不是每一个区域内都有三个框, 这就是置信度的作用, 表示该框准确框到物体的概率, 借此筛掉多余的框.<br>
-                            其实并没有筛完, 所以Yolo后常跟随NMS(非极大值抑制). 至于如何通过卷积得到最后这个张量(n*n*m), 不同的版本有不同的卷积方式, 在此不做赘述
-                        </h4>
+                        <p>
+                            如果你要学习yolo,建议先了解一下:"什么事IOU?""NMS非极大值抑制算法"<br>
+                            我使用DJI的官方数据进行训练, 明年估计不会有数据集了, 需要自己制作, 官方数据集中有"car""armour_1_red""armour_2_blue""watcher"等等,
+                            细数下有30个类左右, 同时由于装甲板与机器人为两个类, 不能直接得出"car_4_red"这样的信息, 还需要识别之后进行处理.<br>
+                            我通过IOU对数据进行预处理, car与armour的IOU=armour, 则认为armour属于car, 从而在训练前, 得到"Car_4_red"这样的类.
+                            由于armour与car合并, 类别数减少, 个人觉得yolo的检测效果也变好了.
+                        </p>
+                        <h3>
+                            2.双目识别
+                        </h3>
+                        <p>
+                            简单提一提, 双目测距依靠, 双目视差进行测距, 简单说依靠左右眼中同一目标的坐标差, 判断距离, 距离反比于视差, 视差越大目标
+                            越近. 但是OpenCV自带的双目测距, 会对两个图像中的所有特征点进行匹配, 并计算所有特征点的距离, 严重拖慢程序. 实际在RM中
+                            只需要对单点进行测距, 比如仅仅测量装甲板四个特征点的距离, 仅仅只需要做四次除法. <br>
+                            双目标定的成功率比较低,要有耐心.
+                        </p>
                         <div class="col-sm-12">
-                            <img src="images/blog/yolo-result.png" alt="loading picture" class="img-thumbnail">
+                            <img src="images/RM/pic_23.png" alt="loading picture" class="img-thumbnail">
                         </div>
-                        <h3>
-                            2. Yolo 5 网络结构
-                        </h3>
-                        <h4>
-                            Yolo5没有想Yolo3一样将网络结构保存为cfg文件, 而是保存为yaml文件, 导致我一开始也没看懂, 但只要找到yaml文件的读取方式,马上就可以知道网络结构了
-                            <div class="col-sm-12">
-                                <img src="images/blog/yolo5web.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-                            <br>之后我找到了读取yaml文件的程序 models/yolo.py中的Model类.<br>
-                            from代表输入层, -1即上一层输出通道数<br>
-                            number暂时没能理解,只知道它用于控制BottleneckCSP层中的通道数<br>
-                            args代表,输出通道数, kernel_size, stride<br>
-                            module代表网络层类型, 大致由以下几种:<br>
-                            <div class="col-sm-12">
-                                <img src="images/blog/focus.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-                            <div class="col-sm-12">
-                                <img src="images/blog/conv.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-
-                            <div class="col-sm-12">
-                                <img src="images/blog/BottleneckCSP.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-                            可见他们都是由简单网络层组成的, 所以整个yolo5s, 共有191层网络, 具体网络可以自己根据yaml文件画一画, 我就偷个懒,不在此显示了
-                        </h4>
-
-                        <h3>
-                            3. 修改网络
-                        </h3>
-                        <h4>
-                            Yolo每一个官方版本都是分80个类(咱也不知道为啥是80, 咱也不敢问), 但是往往在我们自己训练的时候不是80类, 所以第一步, 便是修改类个数
-                            ①打开yolo5s.yaml将nc(number of classes)改为类个数, 仅此而已, Yolo3还需要根据类个数自己计算网络输出的通道数<br>
-                            别人在训练的时候可能有很强的GPU, 但我没有, 于是②只能减小batch_size, 最终减到6, 勉强可以运行.<br>
-                            ③修改图片路径, 将自己的图片路径写入coco.yaml文件中, 并保证程序可以正确读取<br>
-                            最后便是等待结果, 同时可以享受一份RTX煎蛋(电脑是真的烫)
-                            <div class="col-sm-12">
-                                <img src="images/blog/training.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-                            <br>结果也很不错, 满意
-                            <div class="col-sm-12">
-                                <img src="images/blog/yolo_test.png" alt="loading picture" class="img-thumbnail">
-                            </div>
-                        </h4>
-
                     </div>
                 </article>
             </div>
@@ -192,8 +156,8 @@
                     <div class="widget-author-inner row">
                         <div class="author-avatar row"><a href="#"><img src="images/author.jpg" alt="" class="img-circle"></a></div>
                         <a href="#"><h2 class="author-name">施磊</h2></a>
-                        <h5 class="author-title">不想当将军的马夫,不是好厨子</h5>
-                        <p>截至6月10日,我的github博客,基本建立完成.发此篇简述建立过程,供大家学习</p>
+                        <h5 class="author-title">以老王卖瓜的方式讲解自己的代码</h5>
+                        <p>2020赛季以答辩形式结束,学弟们没能积攒到足够的经验,希望这些博客能给予你们帮助,相信你们能写出更棒的</p>
                         <a href="resume.html" class="taxonomy" style="font-size: 15pt">resume</a>
                     </div>
                 </aside>
