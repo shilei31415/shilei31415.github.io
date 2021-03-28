@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--========== The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags ==========-->
-    <title>视觉代码讲解(五)</title>
+    <title>科研训练</title>
 
     <!--==========Dependency============-->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -104,49 +104,96 @@
                 <article class="single-post-content row m0 post">
                     <header class="row">
                         <h5 class="post-meta">
-                            <a class="date">2020 8 30</a>
+                            <a class="date">2020 6 12</a>
                             <span class="post-author"><i>by</i><a href="resume.html">施磊</a></span>
                         </h5>
-                        <h2 class="post-title">其他技术</h2>
+                        <h2 class="post-title">科研训练简介</h2>
                         <div class="row">
-                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">OpenCV</a></h5>
+                            <h5 class="taxonomy pull-left"><i>in</i> <a href="#">matlab</a></h5>
                         </div>
                     </header>
                     <div class="post-content row">
                         <h4>
-                            介绍一下RM中可能用到的其他技术
+                            在学长和老师的指导下我完成了科研训练，在此对我的科研训练做简要介绍
                         </h4>
+                        <br>
                         <h3>
-                            1.Darknet
+                            1.绪论
                         </h3>
+                        <h4>
+                            1.1钴基高温合金与镍基高温合金
+                        </h4>
                         <p>
-                            yolo的作者自己写了一个深度学习的框架叫Darknet, 使用C语言编写, 我们有使用过!!!<br>
-                            但我用过yolo(yolo3,yolo5), 从yolo的效果来看Darknet应该也不会差, 但yolo中有许多网络层OpenCV中没有,
-                            因此OpenCV调用yolo比较困难, 但OpenCV却有Darknet的相关接口, 可以直接调用Darknet的结果.<br>
-                            以下为我使用yolo5的识别效果.
+                            高温合金是指以Fe、Co、Ni为基，在高温条件长期工作，在(650~1150℃)仍具有良好的强度、稳定性、抗疲劳性、
+                            抗氧化性和耐磨性的合金材料，因其优异的性能又被称为超合金(superalloy)，被广泛应用于航空、舰艇和工业用燃气轮机的高温组件中[1]<br>
+                            镍基高温合金可以适用于1000℃以上的工作条件，因而得到广泛应用，以Ni作为基体加入Cr、Mo、B等元素改善其高温性能。
+                            镍基高温合金的固溶强化主要是通过Ti和Al的加入，形成γ′-Ni3(Al, Ti)相，其晶格常数与基体接近，并形成γ/γ′ 两相共格结构。<br>
+                            钴基高温合金的基体构成元素为Co，其组织为面心立方γ相，主要依靠Ni、W、Mn进行固溶强化，由于这些元素不能完全固溶，强化效果有限。<br>
+                            新型钴基高温合金与镍基合金类似，属于沉淀强化型合金，在Co基体中加入Al、W可在固溶时效处理时形成稳定的γ′ -Co3(Al, W)相，可以与γ基体形成共格结构，达到强化目的[4]。<br>
+                        </p>
+                        <h4>
+                            1.2研究内容
+                        </h4>
+                        <p>
+                            通过半隐式傅里叶谱方法求解Cahn-Hilliard成分场扩散方程以及Ginzburg-Landau方程描述的序参数场方程，得到微观组织演化的模型。将外应力场引入弹塑性相场模型，研究应力作用下高温合金强化相的取向组织形成机制和演化特征以及演化机制。
+                        </p>
+                        <h3>
+                            2 实现原理
+                        </h3>
+                        <h4>
+                            2.1建立模型
+                        </h4>
+                        <p>
+                            本文中的钴基高温合金基体为γ相，属于面心无序立方结构(fcc)，如下图左；析出相γ′ ，为L12有序结构，其晶体结构如下图右。
                         </p>
                         <div class="col-sm-12">
-                            <img src="images/RM/pic_22.png" alt="loading picture" class="img-thumbnail">
+                            <img src="images/blog/ky1.png" alt="loading picture" class="img-thumbnail">
                         </div>
                         <p>
-                            如果你要学习yolo,建议先了解一下:"什么事IOU?""NMS非极大值抑制算法"<br>
-                            我使用DJI的官方数据进行训练, 明年估计不会有数据集了, 需要自己制作, 官方数据集中有"car""armour_1_red""armour_2_blue""watcher"等等,
-                            细数下有30个类左右, 同时由于装甲板与机器人为两个类, 不能直接得出"car_4_red"这样的信息, 还需要识别之后进行处理.<br>
-                            我通过IOU对数据进行预处理, car与armour的IOU=armour, 则认为armour属于car, 从而在训练前, 得到"Car_4_red"这样的类.
-                            由于armour与car合并, 类别数减少, 个人觉得yolo的检测效果也变好了.
-                        </p>
-                        <h3>
-                            2.双目识别
-                        </h3>
-                        <p>
-                            简单提一提, 双目测距依靠, 双目视差进行测距, 简单说依靠左右眼中同一目标的坐标差, 判断距离, 距离反比于视差, 视差越大目标
-                            越近. 但是OpenCV自带的双目测距, 会对两个图像中的所有特征点进行匹配, 并计算所有特征点的距离, 严重拖慢程序. 实际在RM中
-                            只需要对单点进行测距, 比如仅仅测量装甲板四个特征点的距离, 仅仅只需要做四次除法. <br>
-                            双目标定的成功率比较低,要有耐心.
+                            本文采用连续相场动力学模型，描述微观结构的演化过程，即Canh-Hilliard成分场，式(2)，和Ginzburg-Landau序参数场，式(1)，描述从无序集体中沉淀出的有序相显微结构演化。
                         </p>
                         <div class="col-sm-12">
-                            <img src="images/RM/pic_23.png" alt="loading picture" class="img-thumbnail">
+                            <img src="images/blog/ky2.png" alt="loading picture" class="img-thumbnail">
+                            <img src="images/blog/ky3.png" alt="loading picture" class="img-thumbnail">
                         </div>
+                        <p>
+                            其中F表示Co-Al-W合金系统的总自由能，由化学自由能、界面能和弹性能组成，由下式表达
+                        </p>
+                        <div class="col-sm-12">
+                            <img src="images/blog/ky4.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <h4>
+                            2.2耦合晶体塑性
+                        </h4>
+                        <p>
+                            Wang[14]等人指出，在蠕变筏化的过程中，塑性应变的引入会加快筏化过程，实验观测也表明，筏化过程中伴随着大量的位错运动，
+                            表明高温合金的筏化过程是一个塑性过程，本次研究采用晶体塑性的理论表示筏化过程中的塑性行为，为了将塑性变形引入相场模型，将F中的应变改为如下形式
+                        </p>
+                        <div class="col-sm-12">
+                            <img src="images/blog/ky5.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <h3>
+                            3 模拟结果
+                        </h3>
+                        <h4>
+                            3.1γ'相的析出过程
+                        </h4>
+                        <p>
+                            1173K下Co-10Al-7W中γ'相的析出过程 (a1)-(a3)序参数场；(b1)-(b3)Al成分场；(c1)-(c3)W成分场；(a1)-(c1) t* = 1；(a2)-(c2) t* = 120；(a3)-(c3) t* = 250
+                        </p>
+                        <div class="col-sm-12">
+                            <img src="images/blog/ky6.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+                        <h4>
+                            3.2耦合晶体塑性的筏化过程
+                        </h4>
+                        <p>
+                            (a1)-(a4)弹性模型；(b1)-(b4)塑性模型；(a1)，(b1)初始组织；(a2)，(b2) t*=20；(a3)，(b3) t*=120；(a4)，(b4) t*=300
+                        </p>
+                        <div class="col-sm-12">
+                            <img src="images/blog/ky7.png" alt="loading picture" class="img-thumbnail">
+                        </div>
+
                     </div>
                 </article>
             </div>
@@ -157,8 +204,8 @@
                     <div class="widget-author-inner row">
                         <div class="author-avatar row"><a href="#"><img src="images/author.jpg" alt="" class="img-circle"></a></div>
                         <a href="#"><h2 class="author-name">施磊</h2></a>
-                        <h5 class="author-title">以老王卖瓜的方式讲解自己的代码</h5>
-                        <p>2020赛季以答辩形式结束,学弟们没能积攒到足够的经验,希望这些博客能给予你们帮助,相信你们能写出更棒的</p>
+                        <h5 class="author-title">科研训练</h5>
+                        <p>从大二开始至大四，在学长和老师的帮助与指导下，我和队友们完成了科研训练，本文基于“科研训练结题报告”</p>
                         <a href="resume.html" class="taxonomy" style="font-size: 15pt">resume</a>
                     </div>
                 </aside>
