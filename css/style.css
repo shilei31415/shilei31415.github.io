@@ -64,7 +64,19 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 h5 {
   font-size: 13px;
 }
-
+.sidetop {
+  position: sticky;
+  top: 16em;
+  overflow-y: auto;
+}
+.right1 {
+  margin-left: 1em;
+  color:#333333;
+}
+.right2 {
+  margin-left: 2em;
+  color:#333333;
+}
 /*Button*/
 .btn-primary {
   background: transparent;
